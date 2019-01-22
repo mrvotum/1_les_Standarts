@@ -1,27 +1,37 @@
-const numberOfPlace = { //Здесь хранятся данные о призовых местах (пока пустые)
-	theFirst: 0,
-	theSecond: 0,
-	theThird: 0,
-};
+function places(playersPointsAr){
+	var str0 = "Первое место: ";
+	var str1 = "Втрое: ";
+	var str2 = "Третье: ";
+	var str3 = "Средний балл: ";
 
-for (var i = 0; i < 3; i++) { //прогоняется три раза, что бы не пропускать нужное число
-	for (const playersPointsAr of [74989, 74990, 74990, 62000, 58480, 61800]) { //набранные баллы за очки в игре
-
-		if (playersPointsAr > numberOfPlace.theFirst){ //находим 1-е место
-			numberOfPlace.theFirst = playersPointsAr;
-		} else if (playersPointsAr > numberOfPlace.theSecond && playersPointsAr != numberOfPlace.theFirst){ //находим 2-е место
-			numberOfPlace.theSecond = playersPointsAr;
-		} else if (playersPointsAr > numberOfPlace.theThird && playersPointsAr != numberOfPlace.theSecond
-		&& playersPointsAr != numberOfPlace.theFirst){ //находим 3-е место
-			numberOfPlace.theThird = playersPointsAr;
-		}
+	function compareNumbers(a, b) { //для сортировки
+		return a - b;
 	}
+
+	playersPointsAr = playersPointsAr.sort(compareNumbers);
+	//console.log(`Сортированный массив: ${playersPointsAr}`);
+
+	playersPointsAr = playersPointsAr.slice(-3); 
+	//Выбирает элементы под индексами 0, 1, 2 (= 1, 2, 3 места) --- если .slice(0, 3)
+	//Выбирает последние 3 места (так как сортировка идёт по возрастанию)
+	//console.log(`Призовые места: ${playersPointsAr}`);
+	//первые три места
+
+	var sum = 0
+	var li = playersPointsAr.length;
+	for(i = 0; i < li; i++){
+		sum += playersPointsAr[i];
+	}
+	var averagePoints = Math.round(sum / 3); 
+	//Средний балл; делим на 3, тк 3 элемента 
+	//return averagePoints;
+
+	return `${str0}${playersPointsAr[2]}
+	${str1}${playersPointsAr[1]}
+	${str2}${playersPointsAr[0]}
+	${str3}${averagePoints}`;
 }
-	
 
-let averagePoints = Math.round((numberOfPlace.theFirst + numberOfPlace.theSecond + numberOfPlace.theThird) / 3);
 
-console.log(`Первое место: ${numberOfPlace.theFirst};`);
-console.log(`Второе место: ${numberOfPlace.theSecond};`);
-console.log(`Третье место: ${numberOfPlace.theThird}.`);
-console.log(`Средний балл: ${averagePoints}`);
+var playersPointsAr = [74989, 74990, 74990, 62000, 58480, 61800]; //количество баллов
+console.log(places(playersPointsAr));
